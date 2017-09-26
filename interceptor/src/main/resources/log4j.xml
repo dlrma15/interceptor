@@ -11,7 +11,7 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.seedit.sam">
+	<logger name="com.seedit.interceptor">
 		<level value="info" />
 	</logger>
 	
@@ -45,7 +45,7 @@
 	</logger>
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
+		<priority value="info" />
 		<appender-ref ref="console" />
 	</root>
 	

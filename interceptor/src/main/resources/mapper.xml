@@ -5,7 +5,7 @@
   <mapper namespace="com.seedit.interceptor">
 	<select id="login" parameterMap="com.seedit.interceptor.Users" resultType="int">
 		<![CDATA[
-			select * from users where user_id=#{userId} and pwd=#{pwd}
+			select count(*) from users where user_id=#{userId} and pwd=#{pwd}
 		]]>
 	</select>
   </mapper>

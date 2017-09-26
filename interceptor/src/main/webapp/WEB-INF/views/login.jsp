@@ -14,12 +14,12 @@
 				url:"/interceptor/input",
 				type:"POST",
 				dataType:"json",
-				data:{userId:$("#userId").val(), pwd:$("pwd").val()},
-				success:function(){
-					alert("fire");
+				data:{userId:$("#userId").val(), pwd:$("#pwd").val()},
+				success:function(result){
+					alert(result);
 				},
 				error:function(error){
-					alert("error");
+					alert(error);
 				}
 			})
 		})
