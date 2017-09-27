@@ -17,12 +17,18 @@
 				data:{userId:$("#userId").val(), pwd:$("#pwd").val()},
 				success:function(result){
 					console.log("error not occured")
-					alert(result.name);
-					alert(result.message);
+					if(result=="success"){
+						location.href="/interceptor/success_login"
+					}
+					else{
+						alert(result);
+					}
 				},
 				error:function(error){
 					console.log("error occured");
-					alert(error);
+					console.log(error);
+					alert(error.responseJSON.name);
+					alert(error.responseJSON.message);
 				}
 			})
 		})

@@ -14,6 +14,9 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 @Controller
 public class HomeController {
@@ -38,6 +41,7 @@ public class HomeController {
 		return "login";
 	}
 
+	@ResponseBody
 	@RequestMapping(value = "/input", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public Object loginTest(HttpServletRequest request, @ModelAttribute @Valid Users user, BindingResult br) throws Exception {
 			if (br.hasErrors()) {
@@ -47,12 +51,14 @@ public class HomeController {
 			}
 		} 
 		else {
-			if (service.loginTest(user) != 0) {
+			logger.info("쿼리 실행결과 :"+service.loginTest(user));
+			if (service.loginTest(user)> 0) {
 				request.getSession().setAttribute("loginInfo", true);
-				return "success_login";
+				return new Gson().toJson("success");
 			}
-			return "fail";
+			request.getSession().removeAttribute("loginInfo");
+			return new Gson().toJson("ID 혹은 비밀번호가 틀렸습니다");
 		}
-			return "not success";
+			throw new CustomException();
 	}
 }
