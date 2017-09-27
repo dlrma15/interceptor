@@ -2,6 +2,9 @@ package com.seedit.interceptor;
 
 import javax.validation.constraints.Size;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("users")
 public class Users {
 	@Size(min=4, message="아이디는 4자 이상만 입력가능합니다")
 	private String userId;
@@ -25,12 +28,9 @@ public class Users {
 	}
 
 	public Users() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Users(String userId, String pwd) {
-		super();
 		this.userId = userId;
 		this.pwd = pwd;
 	}

@@ -40,22 +40,19 @@ public class HomeController {
 
 	@RequestMapping(value = "/input", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public Object loginTest(HttpServletRequest request, @ModelAttribute @Valid Users user, BindingResult br) throws Exception {
-		if (br.hasErrors()) {
-			List<ObjectError> list = br.getAllErrors();
-			for(ObjectError e :list) {
-				throw new Exception(e.getDefaultMessage());
+			if (br.hasErrors()) {
+				List<ObjectError> list = br.getAllErrors();
+				for(ObjectError e :list) {
+				throw new CustomException(e.getDefaultMessage());
 			}
-			throw new Exception("Unknown Error");
 		} 
 		else {
-			logger.info("Controller 진입");
-			logger.info("SQL 리턴값 : " + service.loginTest(user));
 			if (service.loginTest(user) != 0) {
 				request.getSession().setAttribute("loginInfo", true);
 				return "success_login";
 			}
 			return "fail";
 		}
-
+			return "not success";
 	}
 }

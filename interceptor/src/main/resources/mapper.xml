@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="com.seedit.interceptor">
-	<select id="login" parameterMap="com.seedit.interceptor.Users" resultType="int">
+	<select id="loginCheck" parameterMap="hashmap" resultType="int">
 		<![CDATA[
 			select count(*) from users where user_id=#{userId} and pwd=#{pwd}
 		]]>

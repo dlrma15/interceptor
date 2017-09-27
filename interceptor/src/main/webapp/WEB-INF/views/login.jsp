@@ -16,9 +16,12 @@
 				dataType:"json",
 				data:{userId:$("#userId").val(), pwd:$("#pwd").val()},
 				success:function(result){
-					alert(result);
+					console.log("error not occured")
+					alert(result.name);
+					alert(result.message);
 				},
 				error:function(error){
+					console.log("error occured");
 					alert(error);
 				}
 			})
