@@ -40,11 +40,16 @@ public class HomeController {
 	public String login() {
 		return "login";
 	}
+	
+	@RequestMapping(value = "/login2")
+	public String login2() {
+		return "login2";
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "/input", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
 	public Object loginTest(HttpServletRequest request, @ModelAttribute @Valid Users user, BindingResult br) throws Exception {
-			if (br.hasErrors()) {
+		if (br.hasErrors()) {
 				List<ObjectError> list = br.getAllErrors();
 				for(ObjectError e :list) {
 				throw new CustomException(e.getDefaultMessage());
@@ -59,6 +64,26 @@ public class HomeController {
 			request.getSession().removeAttribute("loginInfo");
 			return new Gson().toJson("ID 혹은 비밀번호가 틀렸습니다");
 		}
-			throw new CustomException();
+			throw new CustomException("알 수 없는 에러입니다");
+	}
+	
+	@RequestMapping(value = "/input2", method = RequestMethod.POST, produces="text/plain;charset=UTF-8")
+	public Object loginTest2(HttpServletRequest request, @ModelAttribute @Valid Users user, BindingResult br) throws Exception {
+		if (br.hasErrors()) {
+			List<ObjectError> list = br.getAllErrors();
+			for(ObjectError e :list) {
+				throw new CustomException(e.getDefaultMessage());
+			}
+		} 
+		else {
+			logger.info("쿼리 실행결과 :"+service.loginTest(user));
+			if (service.loginTest(user)> 0) {
+				request.getSession().setAttribute("loginInfo", true);
+				return new Gson().toJson("success");
+			}
+			request.getSession().removeAttribute("loginInfo");
+			return new Gson().toJson("ID 혹은 비밀번호가 틀렸습니다");
+		}
+		throw new CustomException("알 수 없는 에러입니다");
 	}
 }

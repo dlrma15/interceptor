@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -18,15 +19,22 @@ public class ExceptionHandler {
 	
 	@ResponseBody
 	@org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
-	public String exHandler(HttpServletRequest request, Exception ex, HttpServletResponse res){
-		res.setStatus(500);
-		logger.info("ExceptionHandler 진입");
-		logger.info(ex.getClass().getSimpleName());
-		logger.info(ex.getMessage());
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("name", ex.getClass().getSimpleName());
-		map.put("message", ex.getMessage());
-		logger.info(new Gson().toJson(map));
-		return new Gson().toJson(map);
+	public Object exHandler(HttpServletRequest request, Exception ex, HttpServletResponse res) {
+		logger.info("exception 진입");
+		logger.info(request.getHeader("ajaxCheck"));
+		if (!request.getHeader("ajaxCheck").isEmpty() && request.getHeader("ajaxCheck").equals("true")) {
+			res.setStatus(500);
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("name", ex.getClass().getSimpleName());
+			map.put("message", ex.getMessage());
+			return new Gson().toJson(map);
+		} else {
+			logger.info("ajaxCheck 성공");
+			ModelAndView mav = new ModelAndView();
+			mav.addObject("name", ex.getClass().getSimpleName());
+			mav.addObject("message", ex.getMessage());
+			mav.setViewName("errorPage");
+			return mav;
+		}
 	}
-}	
+}

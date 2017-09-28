@@ -14,6 +14,9 @@
 				url:"/interceptor/input",
 				type:"POST",
 				dataType:"json",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader("ajaxCheck","true");
+				},
 				data:{userId:$("#userId").val(), pwd:$("#pwd").val()},
 				success:function(result){
 					console.log("error not occured")
@@ -30,7 +33,7 @@
 					alert(error.responseJSON.name);
 					alert(error.responseJSON.message);
 				}
-			})
+			})	
 		})
 	})
 </script>
